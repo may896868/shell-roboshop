@@ -14,7 +14,7 @@ mkdir -p $LOGS_FOLDER
 echo " script started executed at $(date)"
 
 if [ $USERID -ne 0 ]; then
-    echo -e "$RERROR : PLEASE RUN THIS SCRIPT  WITH root privileges$N" | tee -a $LOG_FILE
+    echo -e "$R ERROR : PLEASE RUN THIS SCRIPT  WITH root privileges$N" | tee -a $LOG_FILE
     exit 1
 fi
 
@@ -33,13 +33,13 @@ VALIDATE $? "Adding mongo repo"
 dnf install mongodb-org -y &>>$LOG_FILE
 VALIDATE $? "Installing mongo db"
 
-systemctl enable mongod 
+systemctl enable mongod &>>$LOG_FIL
 VALIDATE $? "enable mongo db"
 
 systemctl start mongod 
 VALIDATE $? "start mongo db"
 
-sed 's/127.0.0.1/0,0,0,0/g' /etc/mongod.conf
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 VALIDATE $? "Allowing remote connections to mongodb"
 
 systemctl restart mongod
