@@ -38,3 +38,11 @@ VALIDATE $? "enable mongo db"
 
 systemctl start mongod 
 VALIDATE $? "start mongo db"
+
+sed 's/127.0.0.1/0,0,0,0/g' /etc/mongod.conf
+VALIDATE $? "Allowing remote connections to mongodb"
+
+systemctl restart mongod
+VALIDATE $? "Restarted MongoDB"
+
+
